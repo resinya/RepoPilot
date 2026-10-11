@@ -70,25 +70,25 @@ RepoPilot 不应该一次性把整个仓库解释完，而是先构建项目地�
 列出本仓库可用的 skill：
 
 ```bash
-npx skills add <owner>/RepoPilot --list
+npx skills add resinya/RepoPilot --list
 ```
 
 装到当前项目（会随仓库提交给同事）：
 
 ```bash
-npx skills add <owner>/RepoPilot --skill repo-pilot --yes --copy
+npx skills add resinya/RepoPilot --skill repo-pilot --yes --copy
 ```
 
 装到用户级，所有项目可用：
 
 ```bash
-npx skills add <owner>/RepoPilot --global --skill repo-pilot --yes --copy
+npx skills add resinya/RepoPilot --global --skill repo-pilot --yes --copy
 ```
 
 指定目标 agent：
 
 ```bash
-npx skills add <owner>/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
+npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
 ```
 
 > `--copy` 表示落盘而非软链。默认是符号链接，清理 CLI 缓存后可能失效，所以文档里统一推荐 `--copy`。
@@ -106,7 +106,7 @@ npx skills update repo-pilot --global --yes
 
 ```bash
 mkdir -p ~/ai-skills
-git clone https://github.com/<owner>/RepoPilot.git ~/ai-skills/RepoPilot
+git clone https://github.com/resinya/RepoPilot.git ~/ai-skills/RepoPilot
 ```
 
 创建 subagent 包装：
@@ -136,14 +136,14 @@ Use the repo-pilot subagent to help me run this repository.
 ### 4.3 Codex 安装
 
 ```bash
-npx skills add <owner>/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
+npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
 ```
 
 也可以让 Codex 自己装：
 
 ```text
-Install the repo-pilot skill from https://github.com/<owner>/RepoPilot
-Run npx skills add <owner>/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
+Install the repo-pilot skill from https://github.com/resinya/RepoPilot
+Run npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
 Keep the complete skill directory, not just SKILL.md.
 ```
 

@@ -4,10 +4,10 @@
   "description": "Explore an unfamiliar repository: project map, architecture layers, business-flow tracing, and an executable onboarding path.",
   "author": {
     "name": "resin",
-    "url": "https://github.com/<owner>"
+    "url": "https://github.com/resinya"
   },
-  "homepage": "https://<owner>.github.io/RepoPilot/",
-  "repository": "https://github.com/<owner>/RepoPilot",
+  "homepage": "https://resinya.github.io/RepoPilot/",
+  "repository": "https://github.com/resinya/RepoPilot",
   "license": "MIT",
   "keywords": [
     "onboarding",
@@ -27,7 +27,7 @@
       "Architecture analysis",
       "Business-flow tracing"
     ],
-    "websiteURL": "https://<owner>.github.io/RepoPilot/",
+    "websiteURL": "https://resinya.github.io/RepoPilot/",
     "defaultPrompt": [
       "Help me run this repository.",
       "Map out this project's architecture for me.",
