@@ -1,65 +1,58 @@
-# 官方文档站（脚手架待接入）
+# RepoPilot 官方文档站
 
-本站复用 `D:/resinalgo` 的技术栈，而不是复用它的内容：
+由 [Fumadocs](https://fumadocs.dev) + Next.js 16 驱动，**静态导出**部署到 GitHub Pages。
+
+线上地址：<https://resinya.github.io/RepoPilot/>
+
+## 技术栈
 
 | 分类 | 选型 |
 | --- | --- |
-| 框架 | Next.js 16（App Router，Turbopack 构建） |
+| 框架 | Next.js 16（App Router） |
 | 文档框架 | Fumadocs Core / MDX / UI |
-| 样式 | Tailwind CSS 4（配置写在 CSS 里，无 config 文件） |
-| 类型 | TypeScript |
-| 代码规范 | Biome |
-| 包管理 | pnpm |
+| 样式 | Tailwind CSS 4（配置写在 CSS 里） |
+| 包管理 | pnpm 10 |
 
-## 接入步骤
+## 常用命令
 
-从 `D:/resinalgo` 拷贝脚手架时，**只拷以下部分**（内容目录要换成 RepoPilot 自己的）：
-
-```text
-resinalgo/            →  RepoPilot/site/
-├── package.json      →  package.json          # name 改为 repopilot-site
-├── next.config.mjs   →  next.config.mjs
-├── postcss.config.mjs→  postcss.config.mjs
-├── biome.json        →  biome.json
-├── tsconfig.json     →  tsconfig.json
-├── src/              →  src/                   # 路由、llms.txt、OG 图
-├── public/           →  public/                # 图片（大文件走 OSS）
-└── content/docs/     →  content/docs/          # 内容换成 RepoPilot 文档
+```bash
+pnpm dev        # 本地开发，http://localhost:3000
+pnpm build      # 静态导出，产物在 out/
+pnpm types:check
 ```
 
-拷完后必改三处：
+本地开发**不要**设 `PAGES=1`，否则会被加上 `/RepoPilot` 前缀。
 
-1. `package.json` 的 `name` → `repopilot-site`
-2. `src/lib/shared.ts` 的站名、导航、`categories` 数组
-3. `content/docs/meta.json` 的排序
+## 改动优先级
 
-## 硬性约束
+| 想改什么 | 改哪里 |
+| --- | --- |
+| 站名、仓库地址、导航分类 | `src/lib/shared.ts` |
+| 导航渲染方式 | `src/lib/layout.shared.tsx` |
+| 文档内容 | `content/docs/` |
+| 首页 | `src/app/(home)/page.tsx` |
+| 构建与部署配置 | `next.config.mjs` |
 
-**站内不得出现真实的 `SKILL.md` 文件。** CLI 在标准位置找不到 skill 时会递归全仓库搜索，文档里的示例文件会被误当成第二个 skill 装进用户机器。
+## 部署相关的四个约束
 
-要展示 SKILL.md 写法时，用以下两种形式之一：
+1. **`output: 'export'`** —— Pages 没有 Node 运行时，必须静态导出
+2. **`.nojekyll`** —— 不放这个文件，`_next/` 资源全部 404。CI 里已自动生成
+3. **`basePath: '/RepoPilot'`** —— 站点在子路径下，仅 `PAGES=1` 时生效
+4. **静态搜索** —— `/api/search` 用 `staticGET` 在构建期烘索引，客户端用 `useStaticSearch`。因为 Pages 上跑不了服务端搜索
 
-- 放在 `.mdx` 里（扩展名不是 `SKILL.md`，不会被扫到）
-- 写成带语言标注的代码块：
+## 一条硬性约束
 
-  ````md
-  ```yaml
-  ---
-  name: repo-pilot
-  description: ...
-  ---
-  ```
-  ````
+**`content/docs/` 里不能出现真实的技能入口文件。** CLI 在标准位置找不到时会递归全仓库搜索，示例文件会被当成第二个技能装进用户机器。
 
-CI 已在 `.github/workflows/validate-skill.yml` 里钉死这条规则。
+要展示写法，用代码块：
 
-## 部署
-
-站点构建产物走 GitHub Pages。`base` 路径必须等于仓库名：
-
-```ts
-// site/.vitepress 若改用 VitePress 则在此配置；Fumadocs 下对应 src/lib/shared.ts
-base: '/RepoPilot/'
+````md
+```yaml
+---
+name: repo-pilot
+description: ...
+---
 ```
+````
 
-绑定自定义域名后改为 `/`，并在 `public/` 放 `CNAME`。
+仓库根的 `.github/workflows/validate-skill.yml` 已钉死这条规则。

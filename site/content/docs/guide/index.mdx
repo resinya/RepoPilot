@@ -1,0 +1,95 @@
+---
+title: 安装
+description: 用 npx skills 一行命令安装，或在 Claude Code、Codex 中手动接入。
+---
+
+先装 [Node.js 18 或更高版本](https://nodejs.org/)。`skills` CLI 不需要全局安装。
+
+## 列出可安装的内容
+
+```bash
+npx skills add resinya/RepoPilot --list
+```
+
+这里应该**只列出 `repo-pilot` 一项**。如果出现了别的项，说明仓库里有游离的技能文件被误识别了，请提 issue。
+
+## npx skills（推荐，覆盖大多数 agent）
+
+装到当前项目，随仓库提交给同事：
+
+```bash
+npx skills add resinya/RepoPilot --skill repo-pilot --yes --copy
+```
+
+装到用户级，所有项目都能用：
+
+```bash
+npx skills add resinya/RepoPilot --global --skill repo-pilot --yes --copy
+```
+
+指定目标 agent：
+
+```bash
+npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
+```
+
+<Callout type="info">
+  默认是**符号链接**，清理 CLI 缓存后可能失效。加 `--copy` 改成落盘，所以文档里统一推荐带上它。
+</Callout>
+
+更新与验证：
+
+```bash
+npx skills list --global --json
+npx skills update repo-pilot --global --yes
+```
+
+## Claude Code
+
+**方式一：插件市场**（在 Claude Code 会话内执行，不是 shell 命令）
+
+```text
+/plugin marketplace add resinya/RepoPilot
+/plugin install repo-pilot@resinya/RepoPilot
+```
+
+**方式二：稳定克隆 + subagent 包装**
+
+```bash
+mkdir -p ~/ai-skills
+git clone https://github.com/resinya/RepoPilot.git ~/ai-skills/RepoPilot
+```
+
+```bash
+mkdir -p ~/.claude/agents
+cat > ~/.claude/agents/repo-pilot.md <<'EOF'
+---
+name: repo-pilot
+description: Use for exploring an unfamiliar repository, building a project map, tracing business flows, and onboarding newcomers.
+---
+
+When invoked, first read `~/ai-skills/RepoPilot/skills/repo-pilot/SKILL.md` and follow it as the governing workflow.
+Read supporting files from `~/ai-skills/RepoPilot/skills/repo-pilot/references/` only when needed.
+Do not replace this skill with a generic architecture explanation.
+EOF
+```
+
+新开会话后直接调用：`Use the repo-pilot subagent to help me run this repository.`
+
+## Codex
+
+```bash
+npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
+```
+
+<Callout type="warn">
+  **必须保留完整目录结构。** RepoPilot 依赖 `references/` 与 `manifest.yaml` 做按需加载，只拷单独一个技能入口文件会让这套机制失效。
+</Callout>
+
+## 装完之后
+
+**开一个新会话**——多数 agent 在会话启动时才扫描技能目录。然后自然描述任务即可：
+
+```text
+帮我理清这个项目的架构，先给我一张地图。
+```

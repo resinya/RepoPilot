@@ -1,0 +1,81 @@
+---
+title: 参考
+description: 仓库结构、CLI 命令速查、常见问题与贡献方式。
+---
+
+## 仓库结构
+
+```text
+RepoPilot/
+├── skills/                  # ★ 唯一会被安装的部分
+│   └── repo-pilot/
+│       ├── SKILL.md         # agent 加载的入口
+│       ├── README.md        # 中文说明
+│       ├── README_EN.md     # 英文说明（与中文镜像）
+│       ├── manifest.yaml    # 声明式按需加载清单
+│       └── references/      # 按需加载的规则文件
+├── site/                    # 本站点源码，永不进入安装产物
+├── assets/                  # 图片
+├── scripts/                 # 校验脚本
+├── .github/workflows/       # CI
+├── .claude-plugin/          # Claude Code 插件清单
+├── .codex-plugin/           # Codex 插件清单
+├── .agents/                 # 其他 agent 的市场清单
+├── LICENSE                  # MIT
+└── .gitattributes           # 强制 LF
+```
+
+## CLI 命令速查
+
+| 命令 | 作用 |
+| --- | --- |
+| `npx skills add resinya/RepoPilot --list` | 列出可安装内容，不装 |
+| `npx skills add resinya/RepoPilot --skill repo-pilot --yes --copy` | 装到当前项目 |
+| 上面命令加 `--global` | 装到用户级，所有项目可用 |
+| 上面命令加 `--agent codex` | 指定目标 agent |
+| `npx skills list --global --json` | 查看已装内容 |
+| `npx skills update repo-pilot --global --yes` | 更新 |
+
+常用参数：
+
+| 参数 | 含义 |
+| --- | --- |
+| `-g` / `--global` | 装到用户级而非当前项目 |
+| `-a` / `--agent` | 指定目标 agent |
+| `-s` / `--skill` | 指定装哪一个 |
+| `-l` / `--list` | 只列出，不安装 |
+| `--copy` | 落盘而非符号链接 |
+| `-y` / `--yes` | 跳过确认（CI 用） |
+
+## 常见问题
+
+**文档站的代码会被一起装进去吗？**
+
+不会。`skills` CLI 的工作方式是「先扫描、再只拷贝命中的那个子目录」，写入的是 `skills/repo-pilot/` 这一层，不是仓库根。
+
+**为什么仓库根目录没有技能入口文件？**
+
+根级入口会**遮蔽** `skills/` 下的正式入口。这是 CLI 的查找规则决定的。
+
+**文档里能放技能文件示例吗？**
+
+不能放真实文件。CLI 在标准位置找不到时会递归全仓库搜索，示例文件会被当成第二个技能装进用户机器。本站的示例一律写在代码块里，CI 也会拦截这类文件。
+
+**Windows 上有啥要注意的？**
+
+仓库的 `.gitattributes` 强制 LF。Windows 默认的 CRLF 会让 shell 脚本在 Linux 上报 `^M: bad interpreter`。另外配置文件里路径一律写正斜杠 `/`。
+
+## 贡献
+
+新增或修改技能时，请保证：
+
+1. 目录名与入口文件里的 `name` 字段**完全一致**（不一致会让 `--skill` 参数失效）
+2. `description` 写用户会说的话，并声明「不是什么」
+3. 中英文说明一一镜像：标题数量、顺序、信息点都对齐
+4. 复杂规则外置到 `references/`，正文保持在 500 行以内
+
+提交前跑一次自检：
+
+```bash
+node scripts/validate-skill-metadata.mjs
+```
