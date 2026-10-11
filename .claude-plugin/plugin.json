@@ -1,7 +1,7 @@
 {
   "name": "repo-pilot",
-  "version": "0.1.0",
-  "description": "Explore an unfamiliar repository: project map, architecture layers, business-flow tracing, and an executable onboarding path.",
+  "version": "0.4.0",
+  "description": "Build an evidence-backed project map, explain architecture and technology usage, locate changes, and guide repository onboarding.",
   "author": {
     "name": "resin",
     "url": "https://github.com/resinya"
@@ -15,23 +15,5 @@
     "architecture",
     "repository-map"
   ],
-  "skills": "./skills/",
-  "interface": {
-    "displayName": "RepoPilot",
-    "shortDescription": "Repository exploration and onboarding workflow",
-    "longDescription": "Builds a navigable project map first, then traces architecture and business flows according to your current goal, and delivers an onboarding path a newcomer can follow.",
-    "developerName": "resin",
-    "category": "Development",
-    "capabilities": [
-      "Project mapping",
-      "Architecture analysis",
-      "Business-flow tracing"
-    ],
-    "websiteURL": "https://resinya.github.io/RepoPilot/",
-    "defaultPrompt": [
-      "Help me run this repository.",
-      "Map out this project's architecture for me.",
-      "Trace how this business flow runs end to end."
-    ]
-  }
+  "skills": "./skills/"
 }

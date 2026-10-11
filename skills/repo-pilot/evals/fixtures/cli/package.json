@@ -1,0 +1,1 @@
+{"name":"text-export","bin":{"text-export":"bin/export.cjs"},"scripts":{"test":"node --test test/export.test.cjs"}}

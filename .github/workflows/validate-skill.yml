@@ -36,3 +36,17 @@ jobs:
             echo "::error::以下脚本含 CRLF：$bad"
             exit 1
           fi
+
+  skill-behavior:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.10', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Test directory inventory and complete Skill copy
+        run: python -B -m unittest discover -s tests -p 'test_*.py' -v

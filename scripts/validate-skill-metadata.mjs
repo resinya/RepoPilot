@@ -14,7 +14,7 @@ import { join, relative, sep } from 'node:path'
 
 const ROOT = process.cwd()
 const SKILLS_DIR = join(ROOT, 'skills')
-const IGNORE = new Set(['node_modules', '.git', '.next', 'out', '.turbo'])
+const IGNORE = new Set(['node_modules', '.git', '.next', 'out', '.turbo', '.workbuddy'])
 const errors = []
 
 /** 递归收集文件路径，跳过忽略目录 */
@@ -30,7 +30,7 @@ function walk(dir, out = []) {
 
 /** 抽取 --- 包裹的 frontmatter，返回原始文本 */
 function readFrontmatter(file) {
-  const text = readFileSync(file, 'utf8')
+  const text = readFileSync(file, 'utf8').replace(/\r\n?/g, '\n')
   if (!text.startsWith('---')) return null
   const end = text.indexOf('\n---', 3)
   return end === -1 ? null : text.slice(3, end)
@@ -82,6 +82,13 @@ for (const entry of readdirSync(SKILLS_DIR)) {
 
   if (!name) errors.push(`skills/${entry}/SKILL.md frontmatter 缺 name`)
   if (!description) errors.push(`skills/${entry}/SKILL.md frontmatter 缺 description`)
+
+  if (name && (name.length > 64 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name))) {
+    errors.push(`skills/${entry} 的 name 必须为 1–64 字符的小写连字符名称`)
+  }
+  if (description && description.length > 1024) {
+    errors.push(`skills/${entry} 的 description 超过 1024 字符`)
+  }
 
   // name 决定 --skill 参数的值，必须与目录名一致
   if (name && name !== entry) {

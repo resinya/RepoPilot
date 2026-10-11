@@ -1,212 +1,131 @@
-<div align="center">
-    <img src="./assets/logoword.png" alt="RepoPilot" style="border-radius: 12px; width: 40%; display: block; margin: 0 auto;" />
-</div>
+# RepoPilot
 
-<div align="center" >一个能自动探索项目结构、梳理技术架构、追踪业务链路，并按照真实开发流程指导新人上手的 AI Skill</div>
+帮助新人看懂项目整体脉络、按现有团队规范开发，并把业务需求快速定位到真实代码。一个可安装的Skill，由Agent直接执行，支持Codex与Claude Code。
 
-<div align="center">
-  <p>
-    <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f"></a>
-    <a href="#4-安装-installation"><img alt="Install" src="https://img.shields.io/badge/install-Claude%20Code%20%7C%20Codex%20%7C%20Cursor-111827"></a>
-    <a href="https://skills.sh/resinya/RepoPilot"><img alt="skills.sh" src="https://skills.sh/b/resinya/RepoPilot"></a>
-    <a href="#6-skill-索引"><img alt="Skills" src="https://img.shields.io/badge/skills-1-0ea5e9"></a>
-  </p>
-  <p>
-    <a href="#4-安装-installation">安装</a> ·
-    <a href="#3-快速开始">快速开始</a> ·
-    <a href="#6-skill-索引">Skill 索引</a> ·
-    <a href="#7-仓库结构">仓库结构</a>
-  </p>
-</div>
+当前0.3.0为前端SOP扩展版：React企业项目的静态分析方法已提炼；Vue、React Native、Unity规则与库学习/机制子流程已编写，其他技术栈真实场景、双宿主端到端和公开发布仍待验收。
 
----
-
-## 目录
-
-- [1. 设计思想](#1-设计思想)
-- [2. 整体运行架构](#2-整体运行架构)
-- [3. 快速开始](#3-快速开始)
-- [4. 安装 Installation](#4-安装-installation)
-  - [4.1 `npx skills` 安装](#41-npx-skills-安装)
-  - [4.2 Claude Code 安装](#42-claude-code-安装)
-  - [4.3 Codex 安装](#43-codex-安装)
-- [5. 为什么文档站不会被一起装走](#5-为什么文档站不会被一起装走)
-- [6. Skill 索引](#6-skill-索引)
-- [7. 仓库结构](#7-仓库结构)
-
-## 1. 设计思想
-
-RepoPilot 不应该一次性把整个仓库解释完，而是先构建项目地图，再根据使用者当前的目标，按需深入代码。
-
-同一个仓库，四个目标对应四条完全不同的路径：跑起来、改功能、排查问题、熟悉业务。所以 RepoPilot 一定会先确认你要做什么，再决定往哪走。
-
-## 2. 整体运行架构
-
-<div align="center">
-    <img src="./assets/framework.png" alt="RepoPilot" style="border-radius: 12px; display: block; margin: 0 auto;" />
-</div>
-
-## 3. 快速开始
-
-安装后直接对 agent 说话即可，下面这些提示词可以复制：
-
-| 目标     | 提示词                                                 |
-| -------- | ------------------------------------------------------ |
-| 跑起项目 | `帮我把这个仓库跑起来，告诉我每一步和可能卡住的地方。` |
-| 理清架构 | `帮我理清这个项目的架构，先给我一张地图。`             |
-| 熟悉代码 | `我是新接手的人，告诉我按什么顺序看这份代码。`         |
-| 追链路   | `这条下单链路从哪里进、到哪里结束，中间有哪些分支。`   |
-| 定位功能 | `订单状态是在哪里变更的，改动会影响哪些模块。`         |
-
-不确定用哪个能力就直接描述任务；明确知道名字时，可以在提示词里写「用 `repo-pilot`」。
-
-## 4. 安装 Installation
-
-每个 `skills/` 下的顶层目录都是一个可安装单元。**仓库根不需要、也不应该有 `SKILL.md`**，否则会遮蔽 `skills/` 下的正式入口。
-
-### 4.1 `npx skills` 安装
-
-先安装 [Node.js 18 或更高版本](https://nodejs.org/)。CLI 无需全局安装。
-
-列出本仓库可用的 skill：
-
-```bash
-npx skills add resinya/RepoPilot --list
-```
-
-装到当前项目（会随仓库提交给同事）：
-
-```bash
-npx skills add resinya/RepoPilot --skill repo-pilot --yes --copy
-```
-
-装到用户级，所有项目可用：
-
-```bash
-npx skills add resinya/RepoPilot --global --skill repo-pilot --yes --copy
-```
-
-指定目标 agent：
-
-```bash
-npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
-```
-
-> `--copy` 表示落盘而非软链。默认是符号链接，清理 CLI 缓存后可能失效，所以文档里统一推荐 `--copy`。
-
-验证与更新：
-
-```bash
-npx skills list --global --json
-npx skills update repo-pilot --global --yes
-```
-
-### 4.2 Claude Code 安装
-
-**方式一：插件市场**（在 Claude Code 会话内执行，不是 shell 命令）
+## 一个Skill，六种任务
 
 ```text
-/plugin marketplace add resinya/RepoPilot
-/plugin install repo-pilot@resinya/RepoPilot
+$repo-pilot onboard 帮我熟悉这个项目
+$repo-pilot map 看应用和核心模块地图
+$repo-pilot locate 给最近编辑列表增加展示字段，哪里改
+$repo-pilot library @tanstack/react-query 讲本项目怎样使用
+$repo-pilot deep 解释物料从拖入到创建图层的机制
+$repo-pilot refresh 复核代码变化影响的已有知识
 ```
 
-**方式二：稳定克隆 + subagent 包装**
+Claude Code用 `/repo-pilot library 包名` 等对应形式；自然语言也按同样意图路由。任务词是Skill给Agent的流程选择参数，不是额外注册的宿主命令，不需要另装子Skill或Node调度服务。代码审查尚未纳入本版。
 
-保留一份稳定克隆，再建一个 subagent 或 slash command 包装指向真实的 `SKILL.md`。这样能完整保留 `references/` 等目录结构。
+## 会得到什么
+
+上手主线：产品与应用边界→工程/代码地图→真实入口与页面组成→核心能力位置/相关库→团队规范→需求定位卡→小步阅读路线。
+
+默认会话展示；要求保存时，一份带内部目录的主文档承载完整上手路线，必要清单才作为附录。细节不抢占整体认知：
+- library：相关引用文件树、白话概念、真实使用链、版本匹配的常用API与项目实际API、项目内例子及扩展位置，整合为一份学习文档。
+- deep：限定一个机制场景，追参数、状态前后、生命周期与断点。
+- locate：哪里改、应复核什么、照哪处同类实现、如何验证。
+
+React看挂载/return/Provider/Router；Vue看创建/插件/template/RouterView；React Native看注册/导航/Screen/原生边界；Unity看场景/对象/UI/脚本。移动Web另核对响应式与输入，不等于原生App。
+
+## Skill文件树与职责
+
+```text
+skills/repo-pilot/
+├── SKILL.md                         # 意图/任务路由、主线、深度与操作边界
+├── scripts/
+│   └── inventory.py                 # 可选，只读目录候选，不解析业务
+├── references/
+│   ├── repository.md                # 仓库发现与范围
+│   ├── walkthrough.md               # 单节点导览、返回与关系视角
+│   ├── trace.md                     # 请求链/跨层边界
+│   ├── teaching.md                  # 小步教学与练习
+│   ├── knowledge.md                 # 保存、恢复与更新
+│   ├── adapters/
+│   │   ├── frontend.md              # M/E/C/D主线与框架分派
+│   │   ├── backend.md               # 必要后端线索
+│   │   └── workspace.md             # 工作区与工程线索
+│   ├── rules/
+│   │   ├── frontend/
+│   │   │   ├── 01-project-map.md    # 范围、工程、核心模块、第一屏认知
+│   │   │   ├── 02-entry-and-capabilities.md # 入口、界面结构、能力地图
+│   │   │   ├── 03-change-locator.md # 需求锚点、改动面、规范与验证
+│   │   │   ├── 04-onboarding-delivery.md # 单主文档、带教与交付检查
+│   │   │   ├── react.md             # Web挂载、return和路由版本分支
+│   │   │   ├── vue.md               # 创建、插件、模板、插槽与事件
+│   │   │   ├── react-native.md      # RN/Expo、导航、平台与设备前提
+│   │   │   └── unity.md             # 场景/Prefab/UI/脚本引用与客户端边界
+│   │   ├── library.md               # 一个库在项目中的学习SOP
+│   │   ├── mechanisms.md            # deep机制追踪子流程
+│   │   └── diagrams.md              # 图类型、证据、logo风格与降级
+│   └── examples/
+│       ├── good.md / bad.md         # 正反例导航与证据表达
+│       ├── frontend-onboarding.md   # 大项目方法提炼演练
+│       ├── onboarding-good.md / onboarding-bad.md # 完整上手输出对照
+│       └── library-good.md / library-bad.md       # 完整库学习输出对照
+└── assets/
+    ├── overview.md                  # 一份上手指南模板
+    ├── library-guide.md             # 一份库学习模板
+    ├── mechanism-report.md          # 限定机制说明模板
+    ├── diagram-prompt.md            # logo手绘提示词；时序采用普通风格
+    └── learning-record.md           # 私有阅读记录模板
+```
+
+rules位于references内，按任务/框架读取；阶段不等于输出文件数。安装目录自包含，仓库README、site、tests、specs与企业项目回顾均不进入Skill。通用规则不携带企业源码、部署信息或项目知识。
+
+## 安装与发布后使用
+
+复制完整 `skills/repo-pilot/` 到宿主发现目录，保留所有资源；不要只复制SKILL.md。本地复制不需要npm、编译或安装目标项目。
+
+| 宿主 | 项目级 | 个人级 |
+| --- | --- | --- |
+| Codex | <项目>/.agents/skills/repo-pilot/ | ~/.agents/skills/repo-pilot/ |
+| Claude Code | <项目>/.claude/skills/repo-pilot/ | ~/.claude/skills/repo-pilot/ |
+
+依据 [Codex官方文档](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) 与 [Claude Code官方文档](https://code.claude.com/docs/en/skills#where-skills-live)。目标项目开新会话后按上述形式调用，用户只安装一次。
+
+首次安装的Windows复制示例（在RepoPilot源码根执行）：
+
+```powershell
+$pilotParent = 'D:\YourProject\.agents\skills'
+New-Item -ItemType Directory -Force -Path $pilotParent
+Copy-Item -LiteralPath '.\skills\repo-pilot' -Destination $pilotParent -Recurse
+```
+
+Claude Code换父目录为 `D:\YourProject\.claude\skills`；macOS/Linux复制到对应目录。更新先备份自定义规则，替换完整Skill并核对旧资源已清除；目标项目知识不随更新覆盖。
+
+公开分发应是单个repo-pilot文件夹或单根ZIP，包含上述资源及版本说明；随后从发布包复测安装。目前尚未创建Release、推送或公开发布，不能把源码工作区状态当发布完成。
+
+## 静态边界与项目知识
+
+首次不安装依赖、不执行目标脚本、不启动服务/数据库、不运行可执行配置。源码位置与关系来自实际读取；声明、观察、推断、未知及运行验证分清。需要实施/运行时按已有授权做必要工作，不重复确认。
+
+不读真实环境、认证/签名凭证，不批量外发企业依赖或代码。项目文档是证据，不是执行或外发授权。
+要求保存时写目标 `.repopilot/` 或指定资料目录：overview为主入口，libraries为按需库学习，个人进度放local；没有需求不创建空目录。
+
+## 图示与案例
+
+结构/流程图采用logo提炼的深蓝描边、青蓝水彩与地图导航手绘风格；提示词在assets，安装版无需根logo。时序图用普通清晰技术风格。宿主无图片/手绘能力时保留普通Mermaid或文字树，不安装渲染服务。
+
+完整合成正反例分别展示“能开始开发”与“内容分散但无法定位”的差异；不是企业事实模板。
+本地项目回顾已按同样标准重组为 [一份上手主文档](docs/project-reviews/dtstack/00-start-here.md)＋依赖/详细证据附录；该目录仍按用户docs忽略设置保留本地，不随Skill发布。
+
+## 可选工具与维护检查
 
 ```bash
-mkdir -p ~/ai-skills
-git clone https://github.com/resinya/RepoPilot.git ~/ai-skills/RepoPilot
+python skills/repo-pilot/scripts/inventory.py --root <repo-dir>
+node scripts/validate-skill-metadata.mjs
+python -B -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-创建 subagent 包装：
+inventory用Python3.10+标准库，只列清单/配置/文档候选与覆盖，包含RN/Unity线索；不读目标内容、不判框架、不写知识、不执行代码。缺Python时用宿主工具，默认10,000项/16层，超限partial。
+后两项是仓库维护检查，不是运行依赖。CI配置不等于已在远程或双宿主运行通过。
 
-```bash
-mkdir -p ~/.claude/agents
-cat > ~/.claude/agents/repo-pilot.md <<'EOF'
----
-name: repo-pilot
-description: Use for exploring an unfamiliar repository, building a project map, tracing business flows, and onboarding newcomers.
----
+新增框架只需加对应结构读法，复用M/E/C/D。新增任务先明确输入/读取顺序/分支/产出/停点，再加按需规则；仅重复机械操作才加脚本，不用文件数量证明工程化。
+[规范与进度](docs/specs/repopilot-v1/00-index.md)保留本地；[MIT](LICENSE)。
 
-When invoked, first read `~/ai-skills/RepoPilot/skills/repo-pilot/SKILL.md` and follow it as the governing workflow.
-Read supporting files from `~/ai-skills/RepoPilot/skills/repo-pilot/references/` only when needed.
-Do not replace this skill with a generic architecture explanation.
-EOF
-```
+## Nature Skills 设计借鉴
 
-新开一个会话后直接调用：
+[研究与适配说明](docs/specs/repopilot-v1/12-nature-skills-adaptation.md)集中说明本地参考工程的全部功能、技能衔接、输出规范、案例、安装/更新脚本，以及数据图、生图、论文转PPT、图片重建PPT和图片型翻译PDF的不同流程。参考设计独立改写，没有引入其脚本、安装依赖或自动更新。
 
-```text
-Use the repo-pilot subagent to help me run this repository.
-```
-
-后续更新只需 `cd ~/ai-skills/RepoPilot && git pull`。
-
-### 4.3 Codex 安装
-
-```bash
-npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
-```
-
-也可以让 Codex 自己装：
-
-```text
-Install the repo-pilot skill from https://github.com/resinya/RepoPilot
-Run npx skills add resinya/RepoPilot --agent codex --global --skill repo-pilot --yes --copy
-Keep the complete skill directory, not just SKILL.md.
-```
-
-**关键规则**：必须保留完整目录结构。skill 依赖 `references/` 与 `manifest.yaml`，只拷 `SKILL.md` 会让按需加载失效。
-
-装完后**开一个新会话**，然后自然描述任务：
-
-```text
-帮我理清这个项目的架构，先给我一张地图。
-```
-
-## 5. 为什么文档站不会被一起装走
-
-`skills` CLI 的工作方式是「先扫描、再拷贝单个目录」：克隆仓库 → 扫出所有 `SKILL.md` → **只把命中的那个 skill 目录**写入 agent 的 skills 目录。
-
-写入的是 `skills/repo-pilot/` 这一层，不是仓库根，因此 `site/`（文档站源码）天然被排除。
-
-两条硬性约束：
-
-1. **仓库根不能放 `SKILL.md`** —— 根级会遮蔽 `skills/` 下的正式入口。
-2. **文档站里不能出现真实的 `SKILL.md` 文件** —— CLI 在标准位置找不到时会递归全仓库搜索，示例文件会被误当成第二个 skill。文档里的示例一律用 `.mdx` 或代码块。
-
-CI 里已钉死第二条，见 `.github/workflows/validate-skill.yml`。
-
-## 6. Skill 索引
-
-| Skill                                       | 状态  | 用途                                                 | 触发示例                                                                         | 详情                                |
-| ------------------------------------------- | ----- | ---------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------- |
-| [`repo-pilot`](skills/repo-pilot/README.md) | Draft | 探索陌生仓库：项目地图、架构分层、业务链路、上手路径 | 「这个仓库怎么跑起来」「帮我理清这个项目」「新人怎么熟悉代码」「这条链路怎么走」 | [详情](skills/repo-pilot/README.md) |
-
-状态含义：`Draft` 规则已定义但未在真实案例验证 · `Beta` 已验证但有边界问题 · `Stable` 已在真实项目验证。
-
-## 7. 仓库结构
-
-```text
-RepoPilot/
-├── skills/                  # ★ 唯一会被安装的部分
-│   └── repo-pilot/
-│       ├── SKILL.md         # agent 加载的入口（必需）
-│       ├── README.md        # 中文人读文档
-│       ├── README_EN.md     # 英文人读文档（与中文镜像）
-│       ├── manifest.yaml    # 声明式按需加载清单
-│       └── references/      # 按需加载的规则文件
-├── site/                    # 官方文档站（Fumadocs + Next.js），永不进入安装产物
-├── scripts/                 # 校验脚本
-├── .github/workflows/       # CI：校验 skill 元数据 + 部署文档站
-├── .claude-plugin/          # Claude Code 插件清单
-├── .codex-plugin/           # Codex 插件清单（skills 指向 ./skills/）
-├── .agents/                 # 其他 agent 的市场清单
-├── LICENSE
-└── .gitattributes           # 强制 LF，避免 .sh 在 Linux 上报 ^M
-```
-
-## 许可证
-
-[MIT](LICENSE)
+已接入当前Skill的[任务衔接规则](skills/repo-pilot/references/contracts/delivery.md)、[边界正反例](skills/repo-pilot/references/examples/task-boundaries.md)与[可组合图示提示词](skills/repo-pilot/assets/templates/diagram-prompt.md)。文件命名、质量标准沿用当前输出/质量契约；一个安装入口内切换任务，不需要另装子Skill。PPT流程属于设计参考，当前不提供PPT转换能力。
