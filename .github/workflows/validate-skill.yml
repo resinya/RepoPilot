@@ -1,0 +1,38 @@
+name: Validate skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 校验 frontmatter 合法性 + 拦截游离 SKILL.md
+      - name: 校验 skill 元数据
+        run: node scripts/validate-skill-metadata.mjs
+
+      # 兜底：即使脚本被改坏，这一条仍然拦截根目录的 SKILL.md
+      - name: 禁止仓库根出现 SKILL.md
+        run: |
+          if [ -f SKILL.md ]; then
+            echo "::error::仓库根不能放 SKILL.md，它会遮蔽 skills/ 下的正式入口"
+            exit 1
+          fi
+
+      # 换行符检查：CRLF 会让 .sh 脚本在 Linux 上报错
+      - name: 检查换行符
+        run: |
+          bad=$(find . -path ./node_modules -prune -o -name '*.sh' -print | xargs grep -lU $'\r' 2>/dev/null || true)
+          if [ -n "$bad" ]; then
+            echo "::error::以下脚本含 CRLF：$bad"
+            exit 1
+          fi
