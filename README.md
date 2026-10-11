@@ -8,6 +8,7 @@
   <p>
     <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f"></a>
     <a href="#4-安装-installation"><img alt="Install" src="https://img.shields.io/badge/install-Claude%20Code%20%7C%20Codex%20%7C%20Cursor-111827"></a>
+    <a href="https://skills.sh/resinya/RepoPilot"><img alt="skills.sh" src="https://skills.sh/b/resinya/RepoPilot"></a>
     <a href="#6-skill-索引"><img alt="Skills" src="https://img.shields.io/badge/skills-1-0ea5e9"></a>
   </p>
   <p>
@@ -102,6 +103,15 @@ npx skills update repo-pilot --global --yes
 
 ### 4.2 Claude Code 安装
 
+**方式一：插件市场**（在 Claude Code 会话内执行，不是 shell 命令）
+
+```text
+/plugin marketplace add resinya/RepoPilot
+/plugin install repo-pilot@resinya/RepoPilot
+```
+
+**方式二：稳定克隆 + subagent 包装**
+
 保留一份稳定克隆，再建一个 subagent 或 slash command 包装指向真实的 `SKILL.md`。这样能完整保留 `references/` 等目录结构。
 
 ```bash
@@ -190,6 +200,9 @@ RepoPilot/
 ├── site/                    # 官方文档站（Fumadocs + Next.js），永不进入安装产物
 ├── scripts/                 # 校验脚本
 ├── .github/workflows/       # CI：校验 skill 元数据 + 部署文档站
+├── .claude-plugin/          # Claude Code 插件清单
+├── .codex-plugin/           # Codex 插件清单（skills 指向 ./skills/）
+├── .agents/                 # 其他 agent 的市场清单
 ├── LICENSE
 └── .gitattributes           # 强制 LF，避免 .sh 在 Linux 上报 ^M
 ```
