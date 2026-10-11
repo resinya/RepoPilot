@@ -18,3 +18,4 @@ Thumbs.db
 
 # 本地工作区数据（含本机路径等私密信息，不进公开仓库）
 .workbuddy/
+docs/*

@@ -1,6 +1,25 @@
-# RepoPilot
+<div align="center">
+  <img src="assets/logoword.png" alt="RepoPilot — Understand any codebase. Navigate with confidence." width="640" />
 
-帮助新人看懂项目整体脉络、按现有团队规范开发，并把业务需求快速定位到真实代码。一个可安装的Skill，由Agent直接执行，支持Codex与Claude Code。
+  <p><strong>帮助新人看懂项目整体脉络、按现有团队规范开发，并把业务需求快速定位到真实代码。</strong><br/>一个可安装的 Skill，由 Agent 直接执行，支持 Codex 与 Claude Code。</p>
+
+  <p>
+    <a href="LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-3B6D11" /></a>
+    <a href="#安装与发布后使用"><img alt="install" src="https://img.shields.io/badge/install-Claude_Code_%7C_Codex-185FA5" /></a>
+    <a href="#一个-skill六种任务"><img alt="tasks" src="https://img.shields.io/badge/tasks-12-185FA5" /></a>
+  </p>
+
+  <p>
+    <a href="#一个-skill六种任务">六种任务</a> ·
+    <a href="#会得到什么">会得到什么</a> ·
+    <a href="#安装与发布后使用">安装</a> ·
+    <a href="#静态边界与项目知识">静态边界</a> ·
+    <a href="#图示与案例">图示与案例</a> ·
+    <a href="#可选工具与维护检查">可选工具</a>
+  </p>
+</div>
+
+---
 
 当前0.3.0为前端SOP扩展版：React企业项目的静态分析方法已提炼；Vue、React Native、Unity规则与库学习/机制子流程已编写，其他技术栈真实场景、双宿主端到端和公开发布仍待验收。
 
