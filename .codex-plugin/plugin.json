@@ -1,6 +1,6 @@
 {
   "name": "repo-pilot",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Build an evidence-backed project map, explain architecture and technology usage, locate changes, and guide repository onboarding.",
   "author": {
     "name": "resin",

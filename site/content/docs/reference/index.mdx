@@ -1,55 +1,39 @@
 ---
 title: 参考
-description: Skill 目录职责、保存结构、扩展方式与开发检查。
+description: Skill 目录职责、集中输出和开发检查。
 ---
 
-## 顶层职责
+## 职责
 
-| 项 | 职责 |
+| 位置 | 用途 |
 | --- | --- |
-| SKILL.md | 12 个任务的路由表、上手主线、操作边界 |
-| references/workflows/ | 每个任务一份流程：输入、步骤、停点、交付 |
-| references/contracts/ | 证据、输出、质量、知识、图示与任务衔接约定 |
-| references/adapters/ | 按真实入口适配：Web、服务端、原生/游戏、库与 CLI、数据任务、工程组织 |
-| references/examples/ | 完整正反例，展示"能开始开发"与"信息分散无法定位"的差异 |
-| scripts/ | 一个可选 inventory.py，只读目录索引 |
-| assets/templates/ | 概览、架构、技术栈、地图、定位卡、库学习、机制等输出模板 |
+| SKILL.md | 14个任务路由、学习链路和操作边界 |
+| references/workflows/ | 各任务的输入、步骤、产出和停点 |
+| references/adapters/ | 按真实入口适配项目类型与框架 |
+| references/contracts/ | 证据、讲解、集中输出、质量与任务衔接 |
+| references/examples/ | 业务学习、集中地图与其他任务的正反例 |
+| assets/templates/ | 主文、单页业务地图与按需专题模板 |
+| scripts/inventory.py | 可选只读目录候选扫描 |
+| evals/ | 合成项目及行为评估用例 |
 
-一个完整 repo-pilot 目录包含所有任务资源，不另装子 Skill。仓库 site、tests、开发规范与企业项目资料不参与安装。
+一个安装入口按需加载资料，不另装子 Skill。通用规则和项目事实分开。
 
-## 保存结构
+## 默认集中保存
 
-默认只在会话展示；明确要求保存时写到目标 `.repopilot/`：
+默认会话展示，要求保存时以目标 `.repopilot/00-start-here.md` 为完整主文，内部目录串起业务、架构、技术、代表场景、规范和开发路线。只需滚动和定位即可读完整个问题。
 
-```text
-<知识目录>/
-├── 00-start-here.md        # 唯一入口、首屏、目录与来源
-├── 01-architecture.md      # 架构四维与典型路径
-├── 02-tech-stack.md        # 核心技术、版本、用途、证据
-├── guides/                 # 开发规范与 libraries/
-├── maps/                   # 独立地图
-├── changes/                # 需求定位卡
-├── traces/                 # 业务链路
-├── mechanisms/             # 内部机制
-├── appendices/             # 全量索引与原始证据
-└── local/                  # 个人位置与练习，非共享
-```
+独立库学习、机制、需求卡、附录和可视化按需增加；交互成果默认 `maps/<主题>/index.html`，同页展示职责与完整当前场景。只要一份独立页面时无需再生成一份重复说明或索引。
 
-只创建需要的目录，不预先铺空结构。00 的来源区记录产物类型、Skill 版本、任务与目标、仓库标识、日期、源码状态、已读与排除范围。Skill 更新不会覆盖项目笔记。
+个人进度放 local；更新前先读已有笔记，不自动删历史01/02，不写回Skill。
 
-## 图与案例
+## 验收
 
-结构图与流程图沿用 logo 的深蓝描边、青蓝填色与地图导航风格；时序图用普通清晰技术风格。提示词写在 assets 中，安装版不需要根 logo。宿主无出图能力时保留 Mermaid 源码或文字树，不安装渲染服务。
+关键结论可追源码；结构关系不当执行顺序；数据逐跳有含义。每轮源码带读一个问题，支持跳过；核心内容不要求点开多个模块才能读懂。
 
-## 扩展
-
-新增框架只需补一份 adapter 的"按什么顺序读结构"，复用现有主线；新增任务要先明确输入、读取顺序、分支、产出与停点，再补按需资料。只有重复且确定的机械操作才增加脚本，不用文件数量证明工程化。
-
-## 检查
+页面语法、交互、布局与真实业务运行是不同验证范围，分别报告。没有运行服务不能把静态链路叫跑通。
 
 ```bash
 node scripts/validate-skill-metadata.mjs
 python -B -m unittest discover -s tests -p 'test_*.py' -v
+claude plugin validate .
 ```
-
-Node 检查属于仓库维护工具，校验 frontmatter 并拦截仓库根出现游离 SKILL.md。可选脚本用 Python 3.10+ 标准库，Skill 本身不需要安装运行时。测试覆盖边界、预算、只读、完整复制与链接；真实项目与宿主端到端效果还需验收。

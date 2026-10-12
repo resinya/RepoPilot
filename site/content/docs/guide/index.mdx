@@ -1,41 +1,33 @@
 ---
 title: 安装
-description: 完整文件夹复制安装到 Codex 或 Claude Code，再在目标项目调用。
+description: 安装完整的 RepoPilot，再从业务全貌到源码小问题逐步学习。
 ---
 
-## 复制完整 Skill
+复制完整 `skills/repo-pilot/`，保留 references、assets、scripts；更新先备份自定义规则，替换完整目录，项目知识保留。
 
-从源码或发布包取得 skills/repo-pilot 整个目录，保留 SKILL.md、scripts、references 和 assets。当前本地重构尚未公开发布。
-
-| 宿主 | 项目级安装 | 个人级安装 |
+| 宿主 | 项目级 | 用户级 |
 | --- | --- | --- |
 | Codex | .agents/skills/repo-pilot/ | ~/.agents/skills/repo-pilot/ |
 | Claude Code | .claude/skills/repo-pilot/ | ~/.claude/skills/repo-pilot/ |
 
-依据 [Codex](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills) 和 [Claude Code](https://code.claude.com/docs/en/skills#where-skills-live) 文档。目录复制不需要 npm、编译或目标项目依赖。
+## GitHub Marketplace
 
-## 调用
+```bash
+claude plugin marketplace add resinya/RepoPilot
+claude plugin install repo-pilot@repo-pilot --scope user
+```
 
-在目标项目开新会话：
+取得的是远程已提交版本；本地改动发布后才可安装到其他机器。插件安装调用 `/repo-pilot:repo-pilot`，直接复制的独立Skill调用 `/repo-pilot`。
+
+## 使用
 
 ```text
 $repo-pilot 帮我熟悉一下这个项目
+$repo-pilot business 先讲业务框架与模块分工
+$repo-pilot trace 这个动作每步传什么、数据怎么变化
+$repo-pilot visualize 把内容集中在一页，不要一直点来点去
 ```
 
-Claude Code 使用 `/repo-pilot`。继续时可以要求“返回”“看地图”“看执行视角”“追踪订单”“给我一个练习”。
+可以直接说“文件太大，每轮只讲一个问题”“配置知道了，跳过”“继续”“返回”。默认会话展示；要保存明确说“整理成一份主文”。
 
-同一安装目录支持任务参数：
-
-```text
-$repo-pilot locate 给列表增加一个字段，哪里改
-$repo-pilot library @tanstack/react-query 解释本项目用法
-$repo-pilot deep 解释拖入物料如何创建图层
-```
-
-Claude Code对应`/repo-pilot library 包名`。这些是Agent按意图选择的内部流程，不是额外宿主命令或独立安装的子Skill。library交付一份库学习文档，deep只分析一个明确机制；代码审查尚未加入。
-
-首次静态探索不会安装依赖或启动服务。Python 3.10+ 仅用于可选目录索引，缺失时由宿主工具完成探索。
-
-## 更新
-
-备份自定义规则，替换完整目录并清除旧版资源，开新会话。目标 .repopilot 中的项目笔记保留，不混入 Skill 发布包。插件市场渠道尚未针对这次重构验收，当前使用普通 Skill。
+首次静态读取，不自动启动项目或数据库。可选目录索引用Python3.10+，缺少时使用宿主搜索。
