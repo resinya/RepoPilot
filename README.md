@@ -15,13 +15,16 @@
     <a href="#安装与发布后使用">安装</a> ·
     <a href="#静态边界与项目知识">静态边界</a> ·
     <a href="#图示与案例">图示与案例</a> ·
-    <a href="#可选工具与维护检查">可选工具</a>
+    <a href="#可选工具与维护检查">可选工具</a> ·
+    <a href="https://resinya.github.io/RepoPilot/">在线文档</a>
   </p>
 </div>
 
 ---
 
-当前0.3.0为前端SOP扩展版：React企业项目的静态分析方法已提炼；Vue、React Native、Unity规则与库学习/机制子流程已编写，其他技术栈真实场景、双宿主端到端和公开发布仍待验收。
+当前0.4.0为任务路由版：12个任务词各自对应一份workflows，交付前过证据、输出、质量三道契约。React企业项目的静态分析方法已提炼；Vue、React Native、Unity的入口读法与库学习/机制子流程已编写，其他技术栈真实场景、双宿主端到端和公开发布仍待验收。
+
+[使用最佳实践](https://resinya.github.io/RepoPilot/docs/guide/practices)结合三段式加载与停点机制，讲清怎样调用更准、更省、更可控。
 
 ## 一个Skill，六种任务
 
