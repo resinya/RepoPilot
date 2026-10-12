@@ -31,7 +31,7 @@ Codex：`$repo-pilot <任务> <目标>`；Claude Code：`/repo-pilot <任务> <�
 | teach | [练习带教](references/workflows/teach.md) | 小练习、完成条件与实际反馈 |
 | refresh | [知识复核](references/workflows/refresh.md) | 受影响结论、更新章节与未复核项 |
 
-每次读[证据](references/contracts/evidence.md)及[输出](references/contracts/outputs.md)契约，只加载本次流程和命中适配资料。交付前读[质量门槛](references/contracts/quality.md)。保存/恢复/迁移读[知识管理](references/contracts/knowledge.md)；需要图读[图示](references/contracts/diagrams.md)。不加载所有资源来凑完整。
+每次读[证据](references/contracts/evidence.md)及[输出](references/contracts/outputs.md)契约，只加载本次流程和命中适配资料。解释源码/配置/模块或带教前读[讲解](references/contracts/explanation.md)。交付前读[质量门槛](references/contracts/quality.md)。保存/恢复/迁移读[知识管理](references/contracts/knowledge.md)；需要图读[图示](references/contracts/diagrams.md)。不加载所有资源来凑完整。
 
 局部追问、跨应用或切换library/deep后返回原目标时，按[任务衔接](references/contracts/delivery.md)复用问题、应用、版本、位置和断点；不重开全仓流程。需要校准范围、版本和输出粒度时只读命中的[边界正反例](references/examples/task-boundaries.md)。
 
@@ -65,7 +65,7 @@ Codex：`$repo-pilot <任务> <目标>`；Claude Code：`/repo-pilot <任务> <�
 
 ## 4. 后续阅读和停点
 
-说明当前位置与上一步关系；读源码，解释职责、输入输出、状态、条件和副作用，附文件/符号/行号；最后给1～3个下一方向和理由。默认一轮一个节点；用户明确自动模式最多三个。
+说明当前位置与上一步关系；读源码，解释职责、输入输出、状态、条件和副作用，附文件/符号/行号；最后给1～3个下一方向和理由。默认一轮一个节点；用户明确自动模式最多三个。遇到配置/依赖注入模块/框架样板文件或用户不熟悉的技术，先按[讲解契约](references/contracts/explanation.md)做骨架优先拆解、配置字段枚举与技术栈前置简报。
 
 继续沿当前目标已确认关系；返回依据阅读历史；看地图保留当前位置。渲染/结构、依赖、执行分开。关键未知、重复/循环、外部实现缺失或偏离目标时交断点和下一证据。跨会话依据真实记录重新核对源码。
 
