@@ -9,6 +9,7 @@
 | 原生与外部服务 | [原生](native-service.md) | 入口/平台/消费契约 |
 | 缺源码 | [信息不足](insufficient-evidence.md) | 已知/未知和下一证据 |
 | 单库学习 | [库用法](library-good.md) | 身份/版本、项目链/API/例子 |
+| 技术预备与最小Demo | [完整gRPC与反例](technology-demo.md) | 熟悉度提问、完整文件/操作/数据、项目映射与续接 |
 | 多应用Web分析细节 | [方法演练](frontend-onboarding.md) | 复杂入口与同名/多版本陷阱 |
 | 局部追问、返回原目标、图示风格 | [边界案例](task-boundaries.md) | 原始请求→输入→正反结果→可观察验收，按需读一案 |
 | 先业务、小切片、跳过配置 | [业务学习](business-learning.md) | 连贯问题、数据变化和用户控制 |

@@ -42,6 +42,23 @@
 
 模板的场景steps表示较大业务阶段，每阶段messages记录from/to、label、kind、entry、shape、fields（name/meaning/source）、result和evidence。shape允许字符串或对象，必须标模拟/实读/汇总的类型。普通节点仍按职责组织；旧字段没有细分来源时如实显示未记录，不自动补造。轻量消息可用一句案例说明；关键数据样子直接可见。
 
+**字段契约（与模板渲染逻辑一致，改动前先读 `assets/templates/business-map.html` 的脚本）**
+
+| 位置 | 字段 | 行为 |
+| --- | --- | --- |
+| 顶层 | title / scope / status / root | Hero 三行与模块区起点；场景有 title 时覆盖页面标题 |
+| 顶层 | participants[{id,name,role}] | 时序图泳道；role 超过 15 个汉字会被截断，必须写短 |
+| 顶层 | sources[] | 来源与验证范围；必须含模拟值声明、未核验项、不混的并行实现 |
+| scenario | story / legacyStages[] | 一次连续模拟案例与开关假设；legacyStages 长度须等于旧细步数，用于折算旧 hash |
+| step | name / summary / processing[] / result / boundary | 大阶段标题、概括、动作列表、阶段结果与边界；阶段数控制在 3～5 |
+| message | from / to / kind / entry | 泳道 id、关系徽章与实际入口；id 未命中会显示“参与者未定义” |
+| message | shape / fields[{name,meaning,source}] | 代码块与字段三元组；source 未知写未记录，不猜 |
+| message | case | `false` = 轻量卡（只留编号/方向/label/entry/result）；省略或 true = 完整卡 |
+
+编号在全部阶段内连续递增，时序图箭头与下方卡片共用同一个计数器，必须一一对应。关键数据卡通常占全部消息的 40%～60%：全压成轻量卡会退回概念图，全展开会淹掉主线。URL 状态为 `#scenario=<id>&section=step-<n>`，旧 `flow`/`step` 仍识别。
+
+不把内部方法画成 HTTP 请求；不知道部署前缀时保留变量；外部身份令牌、本地凭证和临时会话各有自己的角色；实体声明不证明持久化成功。
+
 不把内部方法画成 HTTP 请求；不知道部署前缀时保留变量；外部身份令牌、本地凭证和临时会话各有自己的角色；实体声明不证明持久化成功。未见字段不编造，例值用合成值并标“示意”。前端不在当前范围时标请求方为接口消费者，不能假装读过前端代码。
 
 ## 页面行为与风格

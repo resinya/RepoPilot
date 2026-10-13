@@ -13,7 +13,7 @@ from itertools import islice
 from pathlib import Path
 
 EXCLUDED_DIRS = {
-    ".git", ".repopilot", ".agents", ".codex", ".claude", ".cursor", ".workbuddy", ".aws", ".ssh",
+    ".git", ".repopilot", "技术栈demo", ".agents", ".codex", ".claude", ".cursor", ".workbuddy", ".aws", ".ssh",
     "node_modules", "vendor", ".venv", "venv", "__pycache__", ".cache",
     ".next", ".nuxt", ".turbo", ".vite", ".build", "dist", "dev_dist", "build", "out", "target", "coverage",
     "library", "temp", "logs", "obj", "builds", "deriveddata", "pods", ".gradle",

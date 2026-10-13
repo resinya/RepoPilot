@@ -7,12 +7,13 @@ description: Skill 目录职责、集中输出和开发检查。
 
 | 位置 | 用途 |
 | --- | --- |
-| SKILL.md | 14个任务路由、学习链路和操作边界 |
+| SKILL.md | 15个任务路由、学习链路和操作边界 |
 | references/workflows/ | 各任务的输入、步骤、产出和停点 |
 | references/adapters/ | 按真实入口适配项目类型与框架 |
 | references/contracts/ | 证据、讲解、集中输出、质量与任务衔接 |
 | references/examples/ | 业务学习、集中地图与其他任务的正反例 |
 | assets/templates/ | 主文、单页业务地图与按需专题模板 |
+| assets/templates/business-map.html | 单页地图：内容由内嵌 JSON 驱动，字段写法见下面“页面内容” |
 | scripts/inventory.py | 可选只读目录候选扫描 |
 | evals/ | 合成项目及行为评估用例 |
 
@@ -24,7 +25,24 @@ description: Skill 目录职责、集中输出和开发检查。
 
 独立库学习、机制、需求卡、附录和可视化按需增加；交互成果默认 `maps/<主题>/index.html`，同页展示职责与完整当前场景。只要一份独立页面时无需再生成一份重复说明或索引。
 
+技术预备是单独的保存约定：提问告知默认目录后，用户选择陌生项生成根 `技术栈demo/README.md` 与每项 `<技术名>/README.md`。一项的概念、树、完整代码、流程、命令/结果、API和项目映射放在一起；不强制另建项目主文。基础 demo、项目 library 和内部 deep 属于同一 Skill。
+
 个人进度放 local；更新前先读已有笔记，不自动删历史01/02，不写回Skill。
+
+## 页面内容
+
+单页地图是零构建、零依赖的自包含 HTML，内容是文件内一个 JSON 块。关键字段：
+
+| 字段 | 作用 | 注意 |
+| --- | --- | --- |
+| `participants` | 时序图泳道 | `role` 超过 15 个汉字会被截断 |
+| `nodes` | 模块职责树，从 `root` 展开 | 子节点是包含关系；循环引用不再展开 |
+| `scenarios[].steps[]` | 3～5 个大阶段 | 编号跨阶段连续递增，与箭头共用计数器 |
+| `steps[].messages[]` | 每条箭头 | `case: false` 降级为轻量卡 |
+| `messages[].shape` / `fields` | 数据形状与字段来源 | 来源未知写“未记录”，不猜 |
+| `sources[]` | 来源与验证范围 | 必须含模拟值声明与未核验项 |
+
+JSON 里的 `<` 必须写成 `\u003c`，否则 `</script>` 提前闭合导致整页失效。完整的字段契约与验收清单见[业务可视化](/docs/guide/visualize)。
 
 ## 验收
 

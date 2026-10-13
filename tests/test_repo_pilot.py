@@ -60,7 +60,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_generated_dependencies_credentials_and_knowledge_are_excluded(self):
         for directory in ("node_modules", "dist", "dev_dist", "coverage", ".vite", ".cursor",
-                          ".workbuddy", ".git", ".repopilot", ".aws", "vendor", ".venv",
+                          ".workbuddy", ".git", ".repopilot", "技术栈demo", ".aws", "vendor", ".venv",
                           "Library", "Temp", "Logs", "Obj", "Builds", "Pods", ".gradle"):
             self.file(f"{directory}/package.json")
         self.file(".env.local")

@@ -1,7 +1,7 @@
 {
   "name": "repo-pilot",
-  "version": "0.5.0",
-  "description": "Build an evidence-backed project map, explain architecture and technology usage, locate changes, and guide repository onboarding.",
+  "version": "0.6.0",
+  "description": "Identify relevant technologies and package dependencies, ask about familiarity, teach minimal demos, then guide evidence-backed project exploration and development.",
   "author": {
     "name": "resin",
     "url": "https://github.com/resinya"
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "RepoPilot",
     "shortDescription": "Repository exploration and onboarding workflow",
-    "longDescription": "Builds a navigable project map first, then traces architecture and business flows according to your current goal, and delivers an onboarding path a newcomer can follow.",
+    "longDescription": "Identifies relevant technologies and asks about familiarity first, teaches selected unfamiliar technologies through minimal demos, then resumes architecture and business exploration at the original goal.",
     "developerName": "resin",
     "category": "Development",
     "capabilities": [

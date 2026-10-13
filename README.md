@@ -6,7 +6,7 @@
   <p>
     <a href="LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-3B6D11" /></a>
     <a href="#安装与发布后使用"><img alt="install" src="https://img.shields.io/badge/install-Claude_Code_%7C_Codex-185FA5" /></a>
-    <a href="#一个-skill按目标选择任务"><img alt="tasks" src="https://img.shields.io/badge/tasks-14-185FA5" /></a>
+    <a href="#一个-skill按目标选择任务"><img alt="tasks" src="https://img.shields.io/badge/tasks-15-185FA5" /></a>
   </p>
 
   <p>
@@ -22,12 +22,13 @@
 
 ---
 
-当前 **0.5.0** 把项目理解串成一条学习链路：**整体认知 → 业务模块 → 请求与数据变化 → 小步源码导览 → 开发需求定位**。默认集中展示；保存时以一份带内部目录的主文为入口；可视化以一页完整场景为默认，点击只作辅助。
+当前 **0.6.0** 把项目理解串成一条学习链路：**相关技术与包关系 → 熟悉度确认 → 陌生技术最小 Demo → 整体认知 → 业务模块 → 请求与数据变化 → 小步源码导览 → 开发需求定位**。默认集中展示；保存时以一份带内部目录的主文为入口；可视化以一页完整场景为默认，点击只作辅助。
 
 ## 一个 Skill，按目标选择任务
 
 ```text
 $repo-pilot onboard 帮我熟悉这个项目
+$repo-pilot demo RPC 不熟悉，先给完整最小示例和运行结果
 $repo-pilot business 先讲这个应用的业务框架和模块分工
 $repo-pilot trace 解释登录请求每一步传什么、变成什么
 $repo-pilot walkthrough 文件太大了，每轮只讲一个小问题
@@ -42,13 +43,14 @@ $repo-pilot library @tanstack/react-query 讲当前应用的真实用法
 
 ## 会得到什么
 
-首先说明项目用途、业务模块、架构与技术职责、重要位置和阅读路线。之后用一个真实动作讲清：
+首次分析先列当前相关技术、三方库和本地包关系，询问哪些不熟悉。用户选出的陌生技术先给完整最小 Demo；都熟悉或明确跳过则直接分析。Demo 文档包含文件树、完整代码、数据流、运行步骤、预期输出和项目对应位置；看完说“继续”回原分析节点。随后说明项目用途、业务模块、架构与技术职责、重要位置和阅读路线。之后用一个真实动作讲清：
 **谁发出什么输入 → 哪个模块如何处理 → 数据变成什么 → 交给谁**。
 目录、函数名和包名只作定位，不能替代解释。
 
 - 业务学习：先认模块，再选代表场景；不一开始粘贴整文件。
 - 源码带读：Agent 读够证据，每轮展示一个问题所需的小切片。
 - 项目开发：规范、同类实现、需求拟改位置与验证前提一起给。
+- 基础预备：一项技术一份完整 Demo，先理解怎么用，再看项目封装；不默认安装或启动。
 - 单库学习：引用树、白话概念、实际使用链与项目 API 在一份指南中。
 - 可视化：一个真实/模拟案例贯穿完整时序图，固定参与者明确谁传给谁；按大阶段集中展示URL、header、对象样子、字段来源与结果，导航只定位，补充证据可展开。
 
@@ -100,12 +102,13 @@ claude plugin install repo-pilot@repo-pilot --scope user
 
 不读真实环境、认证凭证或私钥，不发送企业源码到公共服务。网页仅展示本地分析内容，不自动请求目标接口；页面测试不等于业务运行验证。
 
-默认会话展示，要求保存时以目标 `.repopilot/00-start-here.md` 整合全貌、业务、架构、技术和开发路线；独立专题或业务地图仅按需增加。现有笔记先读后更新，个人进度放 local，不把每阶段拆成一个文件。
+项目分析默认会话展示。技术预备提问告知默认保存位置后，用户选择陌生项会生成目标根 `技术栈demo/README.md`（技术栈的使用）与 `<技术名>/README.md`，一项只用一份完整文档；用户只在会话看或指定目录优先。实际源码落地与安装/运行按具体授权。项目分析要求保存时以目标 `.repopilot/00-start-here.md` 整合全貌、业务、架构、技术和开发路线；独立专题或业务地图仅按需增加。现有笔记先读后更新，个人进度放 local，不把每阶段拆成一个文件。
 
 ## 图示与案例
 
 默认清晰文字树、Mermaid 或单页业务地图。用户提供参考图时用参考图；指定 logo 风格时使用深蓝描边、青蓝水彩和地图导航提示词；时序图保持清晰。主场景内容直接可读，不强制逐层点击。
 
+[技术 Demo 正反例](skills/repo-pilot/references/examples/technology-demo.md)包含完整 gRPC 示例和常见退化；
 [业务学习正反例](skills/repo-pilot/references/examples/business-learning.md)展示先业务、小切片和跳过配置；
 [集中地图正反例](skills/repo-pilot/references/examples/interactive-map.md)展示一页完整流程，以及多文档、逐步点选和只有箭头的坏输出。案例是合成演练，不包含企业项目事实。
 
@@ -121,3 +124,5 @@ python skills/repo-pilot/scripts/inventory.py --root <repo-dir>
 inventory 用 Python 3.10+ 标准库，只列目录候选与覆盖，不读业务内容、不写知识、不执行目标代码；缺 Python 用宿主搜索。仓库维护检查、页面交互和真实项目行为评估分别记录。
 
 新增适配器复用学习主线；重复且确定的操作才加脚本。遵循 [MIT](LICENSE)。
+
+Demo例子的维护验证使用 `node tests/technology-demo.smoke.mjs <隔离目录/node_modules>`：先在独立验证目录按例子固定版本安装依赖，测试会提取公开文档中的代码，以本机两个进程核对请求、返回与服务不可达错误，结束清理临时源码和进程；不会自动安装或运行目标项目。技术预备多轮行为用例在evals中，文档/脚本检查不代替Codex与Claude Code的实际会话验收。

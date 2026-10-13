@@ -1,7 +1,7 @@
 {
   "name": "repo-pilot",
-  "version": "0.5.0",
-  "description": "Build an evidence-backed project map, explain architecture and technology usage, locate changes, and guide repository onboarding.",
+  "version": "0.6.0",
+  "description": "Identify relevant technologies and package dependencies, ask about familiarity, teach minimal demos, then guide evidence-backed project exploration and development.",
   "author": {
     "name": "resin",
     "url": "https://github.com/resinya"
